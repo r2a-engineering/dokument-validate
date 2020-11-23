@@ -2,7 +2,7 @@ package io.github.arieldossantos.docs
 
 import io.github.arieldossantos.docs.documents.Document
 
-class DocumentValidation(
+class DokumentValidator(
     val documentValue: String,
     val documentInstance: Document
 ) {
