@@ -140,7 +140,7 @@ publishing {
             artifact sourcesJar
             artifact javadocJar
             groupId 'br.eng.r2a.dokument'
-            artifactId 'gradle-project'
+            artifactId 'core'
             version VERSION_NAME
             pom.withXml {
                 def root = asNode()
