@@ -18,7 +18,7 @@ plugins {
 
 ext {
     ARTIFACT_ID = 'dokument-validate'
-    VERSION_NAME = '0.0.3'
+    VERSION_NAME = System.getenv("CURRENT_VERSION")
     VERSION_CODE = 3 //your version
 
     DESCRIPTION = 'First release on JCenter'
