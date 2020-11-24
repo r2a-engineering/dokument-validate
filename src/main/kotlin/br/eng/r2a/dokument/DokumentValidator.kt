@@ -1,6 +1,6 @@
-package io.github.arieldossantos.docs
+package br.eng.r2a.dokument
 
-import io.github.arieldossantos.docs.documents.Document
+import br.eng.r2a.dokument.documents.Document
 
 class DokumentValidator(
     val documentValue: String,

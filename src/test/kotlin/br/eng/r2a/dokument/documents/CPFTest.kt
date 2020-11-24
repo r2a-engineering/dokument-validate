@@ -1,6 +1,6 @@
-package io.github.arieldossantos.docs.documents
+package br.eng.r2a.dokument.documents
 
-import io.github.arieldossantos.docs.documents.brazil.CPF
+import br.eng.r2a.dokument.documents.brazil.CPF
 import io.mockk.spyk
 import org.junit.jupiter.api.Test
 

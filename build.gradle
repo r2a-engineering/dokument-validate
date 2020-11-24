@@ -5,7 +5,7 @@ plugins {
 
 apply plugin: 'jacoco'
 
-group 'io.github.arieldossantos.docs'
+group 'br.eng.r2a.dokument'
 version '1.0-SNAPSHOT'
 
 repositories {

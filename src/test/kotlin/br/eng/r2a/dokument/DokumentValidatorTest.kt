@@ -1,13 +1,15 @@
-package io.github.arieldossantos.docs
+package br.eng.r2a.dokument
 
-import io.github.arieldossantos.docs.documents.brazil.CPF
+import br.eng.r2a.dokument.documents.brazil.CPF
 import org.junit.jupiter.api.Test
 
 internal class DokumentValidatorTest {
-    val validDocument = DokumentValidator("17652490073",
+    val validDocument = DokumentValidator(
+        "17652490073",
         CPF
     )
-    val invalidDocument = DokumentValidator("00000000088",
+    val invalidDocument = DokumentValidator(
+        "00000000088",
         CPF
     )
 

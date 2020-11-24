@@ -1,6 +1,6 @@
-package io.github.arieldossantos.docs.documents.brazil
+package br.eng.r2a.dokument.documents.brazil
 
-import io.github.arieldossantos.docs.documents.Document
+import br.eng.r2a.dokument.documents.Document
 
 object CNPJ: Document {
     override fun isValid(documentValue: String): Boolean {
