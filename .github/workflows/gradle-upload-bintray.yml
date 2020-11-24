@@ -28,3 +28,4 @@ jobs:
           arguments: bintrayUpload
         env:
           CURRENT_VERSION: ${{ github.event.release.tag_name }} 
+          MAVEN_KEY: ${{ secrets.MAVEN_KEY }}
