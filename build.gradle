@@ -1,17 +1,75 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.72"
+    }
+}
+
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id "com.jfrog.bintray" version "1.7"
+}
+
+ext {
+    ARTIFACT_ID = 'dokument-validate'
+    VERSION_NAME = '0.0.3'
+    VERSION_CODE = 3 //your version
+
+    DESCRIPTION = 'First release on JCenter'
+
+    SITE_URL = 'https://github.com/r2a-engineering/dokument-validate'
+    GIT_URL = 'https://github.com/r2a-engineering/dokument-validate.git'
+    GROUP_NAME = 'br.eng.r2a.dokument'
+
+    MODULE_NAME = 'Dokument Validator'
+
+    LICENSE = 'MIT'
+
+    DEVELOPER_ID = 'arieldossantos'
+    DEVELOPER_NAME = 'Ariel Reis'
+    DEVELOPER_EMAIL = 'reis.ariel@outlook.com'
+
+    IS_UPLOADING = project.getGradle().startParameter.taskNames.any{it.contains('bintrayUpload')}
 }
 
 
 apply plugin: 'jacoco'
+apply plugin: 'maven-publish'
+apply plugin: 'java'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'groovy'
+apply plugin: 'idea'
+apply plugin: 'com.jfrog.bintray'
 
 group 'br.eng.r2a.dokument'
-version '1.0-SNAPSHOT'
+version {VERSION_NAME}
 
-repositories {
-    mavenCentral()
+bintray {
+    user = 'arieldossantos'
+    key = System.getenv("MAVEN_KEY")
+    publications = ['mavenJava']
+    dryRun = false
+    publish = true
+    override = false
+    pkg {
+        repo = 'dokument-validator'
+        name = 'dokument-validate'
+        userOrg = 'r2a-engineering'
+        licenses = ['MIT']
+        vcsUrl = 'https://github.com/r2a-engineering/dokument-validate.git'
+        version {
+            name = VERSION_NAME
+            desc = DESCRIPTION
+            vcsTag = VERSION_NAME
+        }
+    }
 }
-
 
 sourceCompatibility = 1.8
 compileKotlin { kotlinOptions.jvmTarget = "1.8" }
@@ -25,6 +83,11 @@ jacocoTestReport {
     }
 }
 
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testImplementation "io.mockk:mockk:1.10.2"
@@ -36,5 +99,108 @@ test {
     useJUnitPlatform()
 }
 
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "arieldossantos"
+            name "Ariel Reis"
+            email "reis.ariel@outlook.com"
+        }
+    }
+
+
+    scm {
+        url "https://dokument-validate.r2a.eng.br"
+    }
+}
+
+task('sourcesJar', type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar) {
+    //javadoc
+    from javadoc.destinationDir
+    archiveClassifier.set("javadoc")
+}
+
+// Create the publication with the pom configuration:
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            groupId 'br.eng.r2a.dokument'
+            artifactId 'gradle-project'
+            version VERSION_NAME
+            pom.withXml {
+                def root = asNode()
+                root.appendNode('description', 'Dokument Validate')
+                root.appendNode('name', 'Dokument Validator')
+                root.appendNode('url', 'https://dokument-validate.r2a.eng.br')
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
+
+subprojects {
+    group = GROUP_NAME
+    version = VERSION
+
+    if (IS_UPLOADING && project.name in [MODULE_NAME]) {
+        println project.name
+        apply plugin: 'maven'
+
+        gradle.taskGraph.whenReady { taskGraph ->
+            taskGraph.getAllTasks().find {
+                it.path == ":$project.name:generatePomFileForMavenPublication"
+            }.doLast {
+                file("build/publications/maven/pom-default.xml").delete()
+                println 'Overriding pom-file to make sure we can sync to maven central!'
+                pom {
+                    //noinspection GroovyAssignabilityCheck
+                    project {
+                        name "$project.name"
+                        artifactId ARTIFACT_ID
+                        packaging project.name == 'compiler' ? 'jar' : 'aar'
+                        description DESCRIPTION
+                        url SITE_URL
+                        version VERSION_NAME
+
+                        scm {
+                            url GIT_URL
+                            connection GIT_URL
+                            developerConnection GIT_URL
+                        }
+
+                        licenses {
+                            license {
+                                name LICENSE
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id DEVELOPER_ID
+                                name DEVELOPER_NAME
+                                email DEVELOPER_EMAIL
+                            }
+                        }
+                    }
+                }.writeTo("build/publications/maven/pom-default.xml")
+            }
+        }
+    }
+}
 
 check.dependsOn jacocoTestReport
