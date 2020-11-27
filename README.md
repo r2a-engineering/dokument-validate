@@ -1,6 +1,7 @@
 # Dokument Validate
 
 [ ![Download](https://api.bintray.com/packages/r2a-engineering/dokument-validator/dokument-validate/images/download.svg) ](https://bintray.com/r2a-engineering/dokument-validator/dokument-validate/_latestVersion)
+[![codecov](https://codecov.io/gh/r2a-engineering/dokument-validate/branch/main/graph/badge.svg?token=AHCOYCVPR7)](https://codecov.io/gh/r2a-engineering/dokument-validate)
 
 ## How to use
 
