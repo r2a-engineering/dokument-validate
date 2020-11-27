@@ -22,6 +22,9 @@ jobs:
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+        
       # check gradle dependencies  
       - name: Check gradle dependencies
         uses: OrangeLabs-moe/gradle-actions@v5.0-openjdk-14
