@@ -1,14 +1,18 @@
 package br.eng.r2a.dokument
 
 import br.eng.r2a.dokument.documents.brazil.CPF
+import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.TestInstance
 
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 internal class DokumentValidatorTest {
-    val validDocument = DokumentValidator(
+
+    private val validDocument = DokumentValidator(
         "17652490073",
         CPF
     )
-    val invalidDocument = DokumentValidator(
+    private val invalidDocument = DokumentValidator(
         "00000000088",
         CPF
     )
