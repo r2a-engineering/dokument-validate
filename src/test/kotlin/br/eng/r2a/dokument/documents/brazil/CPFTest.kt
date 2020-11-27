@@ -1,6 +1,6 @@
-package br.eng.r2a.dokument.documents
+package br.eng.r2a.dokument.documents.brazil
 
-import br.eng.r2a.dokument.documents.brazil.CPF
+
 import io.mockk.spyk
 import org.junit.jupiter.api.Test
 

@@ -18,7 +18,7 @@ plugins {
 
 ext {
     ARTIFACT_ID = 'dokument-validate'
-    VERSION_NAME = System.getenv("CURRENT_VERSION").replace("v", "")
+    VERSION_NAME = System.getenv("CURRENT_VERSION")?.replace("v", "") ?: "DEVELOPMENT"
     VERSION_CODE = 3 //your version
 
     DESCRIPTION = 'First release on JCenter'
@@ -52,7 +52,7 @@ version {VERSION_NAME}
 
 bintray {
     user = 'arieldossantos'
-    key = System.getenv("MAVEN_KEY")
+    key = System.getenv("MAVEN_KEY") ?: "DEVELOPMENT"
     publications = ['mavenJava']
     dryRun = false
     publish = true
@@ -102,8 +102,8 @@ test {
 def pomConfig = {
     licenses {
         license {
-            name "The Apache Software License, Version 2.0"
-            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            name "The MIT License"
+            url "https://github.com/r2a-engineering/dokument-validate/blob/main/LICENSE"
             distribution "repo"
         }
     }
