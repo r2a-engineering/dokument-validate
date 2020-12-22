@@ -17,7 +17,7 @@ object CPF: Document {
 
         //continue
         var dvCurrent10 = documentValue.substring(9,10).toInt()
-        var dvCurrent11= documentValue.substring(10,11).toInt()
+        var dvCurrent11 = documentValue.substring(10,11).toInt()
 
         //the sum of the nine first digits determines the tenth digit
         val cpfNineFirst = IntArray(9)
