@@ -25,6 +25,24 @@ dependencies {
 }
 ```
 
-### TODO
+### How to use 
 
-Docs of this repository
+To use this library, you must instanciate the class ```DokumentValidator```, passing the document value and one of Documents objects.
+
+```kotlin
+  val dokument = DokumentValidator("123123123", CPF)
+  print(dokument.validate())
+```
+or:
+
+```kotlin
+  val dokument = DokumentValidator(CPF)
+  print(dokument.validate("123123123"))
+```
+
+#### List of current supported documents by countries
+
+- Brazil
+  - CPF - ```br.eng.r2a.dokument.documents.brazil.CPF```
+  - CNPJ - ```br.eng.r2a.dokument.documents.brazil.CNPJ```
+  - PIS - ```br.eng.r2a.dokument.documents.brazil.PIS```
